@@ -70,17 +70,18 @@ type Client struct {
 // token. The shopName parameter is the shop's wooCommerce website domain,
 // e.g. "shop.gitvim.com"
 // a.NewClient(shopName, token, opts) is equivalent to NewClient(a, shopName, token, opts)
-func (a App) NewClient(shopName string, opts ...Option) *Client {
-	return NewClient(a, shopName, opts...)
+func (a App) NewClient(shopName string, opts ...Option) (*Client, error) {
+	client , err := NewClient(a, shopName, opts...)
+	return client , err
 }
 
 // NewClient Returns a new WooCommerce API client with an already authenticated shopname and
 // token. The shopName parameter is the shop's wooCommerce website domain,
 // e.g. "shop.gitvim.com"
-func NewClient(app App, shopName string, opts ...Option) *Client {
+func NewClient(app App, shopName string, opts ...Option) (*Client , error) {
 	baseURL, err := url.Parse(ShopBaseURL(shopName))
 	if err != nil {
-		panic(err)
+		return nil , err
 	}
 	c := &Client{
 		Client: &http.Client{
@@ -101,12 +102,12 @@ func NewClient(app App, shopName string, opts ...Option) *Client {
 		opt(c)
 	}
 
-	return c
+	return c , nil
 }
 
 // ShopBaseURL return a shop's base https base url
 func ShopBaseURL(shopName string) string {
-	return fmt.Sprintf("https://%s", shopName)
+	return fmt.Sprintf("https://%s", strings.TrimSpace(shopName))
 }
 
 // Do sends an API request and populates the given interface with the parsed

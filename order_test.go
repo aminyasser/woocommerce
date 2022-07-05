@@ -20,7 +20,7 @@ func init() {
 		CustomerSecret: customerSecret,
 	}
 
-	client = NewClient(app, shopUrl,
+	client , _ = NewClient(app, shopUrl,
 		WithLog(&LeveledLogger{
 			Level: LevelDebug, // you should open this for debug in dev environment,  usefully.
 		}),
