@@ -24,7 +24,7 @@ type OrderNote struct {
 	DateCreatedGmt string `json:"date_created_gmt,omitempty"`
 
 	Note         string `json:"note,omitempty"`
-	CustomerNote string `json:"customer_note,omitempty"`
+	CustomerNote bool   `json:"customer_note,omitempty"`
 	AddedByUser  bool   `json:"added_by_user,omitempty"`
 }
 
